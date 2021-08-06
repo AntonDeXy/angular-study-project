@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header">{{pageTitle}}</div>
+  <div class="card-header">{{ pageTitle }}</div>
   <div class="card-body">
     <div class="row">
       <div class="col-md-2">Filter by:</div>
@@ -19,8 +19,8 @@
         <thead>
           <tr>
             <th>
-              <button class="btn btn-primary">
-                Show Image
+              <button class="btn btn-primary" (click)="toggleImage()">
+                {{ showImage ? 'Hide' : 'Show' }} Image
               </button>
             </th>
             <th>Product</th>
@@ -33,7 +33,13 @@
         <tbody>
           <tr *ngFor="let product of products">
             <td>
-              img
+              <img
+                *ngIf="showImage"
+                [src]="product.imageUrl"
+                [title]="product.productName"
+                [style.width.px]="imageWidth"
+                [style.margin.px]="imageMargin"
+              />
             </td>
             <td>
               <a>
@@ -46,7 +52,7 @@
             <td>{{ product.releaseDate }}</td>
             <td>{{ product.price }}</td>
             <td>
-              {{  product.starRating  }}
+              {{ product.starRating }}
             </td>
           </tr>
         </tbody>
