@@ -52,7 +52,11 @@
             <td>{{ product.releaseDate }}</td>
             <td>{{ product.price }}</td>
             <td>
-              {{ product.starRating }}
+              <pm-star
+                [rating]="product.starRating"
+                (ratingClicked)="onRatingClicked($event)"
+              ></pm-star>
+              <!-- {{ product.starRating }} -->
             </td>
           </tr>
         </tbody>
