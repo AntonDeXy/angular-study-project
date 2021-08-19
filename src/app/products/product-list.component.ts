@@ -1,6 +1,7 @@
 import { Component, OnInit, Pipe } from "@angular/core";
 import { IProduct } from './products';
 import { ProductService } from './product.service';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'pm-products',
@@ -15,6 +16,8 @@ export class ProductListComponent implements OnInit {
   showImage = false
   filteredProducts: IProduct[] = []
   products: IProduct[] = []
+  errorMessage: string = ''
+  sub!: Subscription
 
   private _listFilter: string = ''
 
@@ -40,9 +43,18 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts()
-    this.filteredProducts = this.products
+    this.sub = this.productService.getProducts().subscribe({
+      next: products => {
+        this.products = products
+        this.filteredProducts = this.products
+      },
+      error: err => this.errorMessage = err
+    })
     this.listFilter = ''
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe()
   }
 
   onRatingClicked(message: string): void {
